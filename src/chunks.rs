@@ -6,12 +6,12 @@ use std::{
 
 use ratatui::prelude::Rect;
 
-use crate::{setup::Frame, States, WidgetResult};
+use crate::{setup::WidgetFrame, States, WidgetResult};
 
 use crate::states::State;
 use crate::FromStates;
 
-pub type ChunkBuilder = Box<dyn FnMut(&mut Frame, &mut States) -> WidgetResult>;
+pub type ChunkBuilder = Box<dyn FnMut(&mut WidgetFrame, &mut States) -> WidgetResult>;
 
 #[derive(Default, FromState)]
 pub struct Chunks {

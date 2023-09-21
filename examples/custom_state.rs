@@ -11,7 +11,7 @@ pub struct CustomState {
 pub struct CustomChunk;
 
 pub fn handle_state(
-    frame: &mut Frame,
+    frame: &mut WidgetFrame,
     mut custom_state: RefMut<CustomState>,
     mut events: RefMut<Events>,
     mut chunks: RefMut<Chunks>,

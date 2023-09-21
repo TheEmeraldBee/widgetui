@@ -3,7 +3,7 @@ use std::{collections::VecDeque, time::Duration};
 
 use ratatui::widgets::{Block, Borders, Paragraph};
 
-use crate::{states::Time, Chunks, Frame, States, WidgetResult};
+use crate::{states::Time, Chunks, States, WidgetFrame, WidgetResult};
 
 pub struct MessageChunk;
 
@@ -43,7 +43,7 @@ impl MessageState {
 
 /// A Timed Message Render
 pub fn message(
-    frame: &mut Frame,
+    frame: &mut WidgetFrame,
     timer: RefMut<Time>,
     chunks: RefMut<Chunks>,
     mut messages: RefMut<MessageState>,

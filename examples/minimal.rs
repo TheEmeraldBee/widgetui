@@ -1,8 +1,11 @@
+use ratatui::widgets::Paragraph;
 use widgetui::*;
 
 use std::{cell::RefMut, error::Error};
 
-fn widget(_frame: &mut Frame, mut events: RefMut<Events>) -> WidgetResult {
+fn widget(frame: &mut WidgetFrame, mut events: RefMut<Events>) -> WidgetResult {
+    frame.render_widget(Paragraph::new("Hello, world!"), frame.size());
+
     if events.key(crossterm::event::KeyCode::Char('q')) {
         events.register_exit();
     }

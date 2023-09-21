@@ -10,7 +10,7 @@ use crate::{
     chunks::{ChunkBuilder, Chunks},
     events::Events,
     set::Set,
-    setup::{reset_terminal, restore_terminal, setup_terminal, Frame, Terminal},
+    setup::{reset_terminal, restore_terminal, setup_terminal, WidgetFrame, WidgetTerminal},
     states::{States, Time},
     widgets::message::MessageState,
     IntoWidget, Widget, WidgetResult,
@@ -18,7 +18,7 @@ use crate::{
 
 /// The powerhouse of tui-helper, runs all defined widgets for you at a set framerate
 pub struct App {
-    terminal: Terminal,
+    terminal: WidgetTerminal,
     widgets: Vec<Box<dyn Widget>>,
     states: States,
     clock: Duration,

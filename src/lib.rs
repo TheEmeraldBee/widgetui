@@ -22,7 +22,7 @@ pub use app::App;
 pub use chunks::Chunks;
 pub use events::Events;
 pub use set::Set;
-pub use setup::{Backend, Frame, Terminal};
+pub use setup::{WidgetBackend, WidgetFrame, WidgetTerminal};
 pub use states::{State, States};
 pub use widget::*;
 

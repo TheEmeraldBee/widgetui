@@ -7,7 +7,7 @@ use std::{
 
 use crate::{
     chunks::Chunks,
-    setup::Frame,
+    setup::WidgetFrame,
     states::{FromState, State, States},
 };
 
@@ -20,7 +20,7 @@ pub trait FromStates {
 
 /// A widget that can be called.
 pub trait Widget {
-    fn call(&mut self, frame: &mut Frame, states: &mut States) -> WidgetResult;
+    fn call(&mut self, frame: &mut WidgetFrame, states: &mut States) -> WidgetResult;
 }
 
 /// A widget that comes from specifically a function.
@@ -33,12 +33,12 @@ macro_rules! impl_for_func {
     ($($item:ident)*) => {
         impl<Func, $($item),*> Widget for FunctionWidget<($($item,)*), Func>
         where
-            Func: FnMut(&mut Frame, $(RefMut<$item>),*) -> WidgetResult,
+            Func: FnMut(&mut WidgetFrame, $(RefMut<$item>),*) -> WidgetResult,
             $($item: FromStates),*
         {
             #[inline]
             #[allow(non_snake_case, unused_variables)]
-            fn call(&mut self, frame: &mut Frame, states: &mut States) -> WidgetResult {
+            fn call(&mut self, frame: &mut WidgetFrame, states: &mut States) -> WidgetResult {
                 $(let mut $item = $item::from_state(states)?;)*
                 (self.f)(frame, $($item.get()),*)
             }
@@ -69,7 +69,7 @@ pub trait IntoWidget<Input> {
 macro_rules! impl_into_widget {
     ($($item:ident)*) => {
         impl<Func, $($item: FromStates),*> IntoWidget<($($item,)*)> for Func
-        where Func: FnMut(&mut Frame, $(RefMut<$item>),*)
+        where Func: FnMut(&mut WidgetFrame, $(RefMut<$item>),*)
          -> WidgetResult
         {
             type Widget = FunctionWidget<($($item,)*), Self>;

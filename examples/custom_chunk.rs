@@ -8,7 +8,7 @@ use widgetui::*;
 
 struct TestChunk;
 
-pub fn chunk_generator(frame: &mut Frame, mut chunks: RefMut<Chunks>) -> WidgetResult {
+pub fn chunk_generator(frame: &mut WidgetFrame, mut chunks: RefMut<Chunks>) -> WidgetResult {
     let chunk = layout! {
         frame.size(),
         constraint!(%50),
@@ -22,7 +22,7 @@ pub fn chunk_generator(frame: &mut Frame, mut chunks: RefMut<Chunks>) -> WidgetR
 }
 
 pub fn render(
-    frame: &mut Frame,
+    frame: &mut WidgetFrame,
     chunks: RefMut<Chunks>,
     mut events: RefMut<Events>,
 ) -> WidgetResult {
@@ -39,6 +39,7 @@ pub fn render(
 
 fn main() -> Result<(), Box<dyn Error>> {
     App::new(100)?
+        .handle_panics()
         .with_widget(chunk_generator)
         .with_widget(render)
         .run()

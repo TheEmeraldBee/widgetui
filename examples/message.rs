@@ -6,7 +6,7 @@ use widgetui::{
     *,
 };
 
-fn chunk_builder(frame: &mut Frame, mut chunks: RefMut<Chunks>) -> WidgetResult {
+fn chunk_builder(frame: &mut WidgetFrame, mut chunks: RefMut<Chunks>) -> WidgetResult {
     let popup = layout![
         frame.size(),
         constraint!(%50),
@@ -24,7 +24,7 @@ fn chunk_builder(frame: &mut Frame, mut chunks: RefMut<Chunks>) -> WidgetResult 
 }
 
 fn my_widget(
-    _frame: &mut Frame,
+    _frame: &mut WidgetFrame,
     mut events: RefMut<Events>,
     mut message: RefMut<MessageState>,
 ) -> WidgetResult {
