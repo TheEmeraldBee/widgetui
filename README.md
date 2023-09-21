@@ -1,5 +1,8 @@
 # Widgetui
 Turn
+<details>
+<summary>Ratatui Minimal</summary>
+
 ```rust
 fn main() -> Result<(), Box<dyn Error>> {
     let mut terminal = setup_terminal()?;
@@ -39,8 +42,12 @@ fn run(terminal: &mut Terminal<CrosstermBackend<Stdout>>) -> Result<(), Box<dyn 
     })
 }
 ```
+</details>
 
 Into
+
+<details>
+<summary>Much Better</summary>
 
 ```rust
 use ratatui::widgets::Paragraph;
@@ -63,9 +70,10 @@ fn main() -> Result<(), Box<dyn Error>> {
     App::new(100)?.with_widget(widget).run()
 }
 ```
+</details>
 
 The goal of this project is to simplify the requirements to make a good project using tui.
-It removes boilerplate, and improves the developer experience by using the power of states, and dependency injection
+It removes boilerplate, and improves the developer experience by using the power of typemaps, and dependency injection
 
 # Installation
 Run the following within your project directory
