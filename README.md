@@ -1,5 +1,8 @@
 # Widgetui
-A bevy like widget system for Ratatui and Crossterm
+Using the power of rust, build apps incredibly quickly.
+
+The goal of this project is to simplify the requirements to make a good project using tui.
+It removes boilerplate, and improves the developer experience by using the power of states, and dependency injection
 
 # Installation
 Run the following within your project directory
