@@ -9,7 +9,7 @@ version.workspace = true
 
 [workspace]
 members = ["tui-helper-proc-macro"]
-package.version = "0.1.0"
+package.version = "0.0.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -17,4 +17,4 @@ package.version = "0.1.0"
 anyhow = "1.0.75"
 crossterm = "0.27.0"
 ratatui = { version = "0.23.0", features = ["macros"] }
-tui-helper-proc-macro = { path = "tui-helper-proc-macro", version="0.1.0" }
+tui-helper-proc-macro = { path = "tui-helper-proc-macro", version="0.0.0" }
