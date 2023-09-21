@@ -4,7 +4,6 @@ edition = "2021"
 description = "A bevy like widget system for ratatui and crossterm"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/TheEmeraldBee/widgetui"
-readme = "README.md"
 version.workspace = true
 
 [workspace]
