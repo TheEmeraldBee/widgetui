@@ -1,6 +1,10 @@
 [package]
 name = "tui-helper-proc-macro"
 edition = "2021"
+description = "Macros for widgetui"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/TheEmeraldBee/widgetui"
+
 version.workspace = true
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
