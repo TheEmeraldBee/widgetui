@@ -9,35 +9,32 @@ use ratatui::prelude::Backend;
 use crate::{
     chunks::{ChunkBuilder, Chunks},
     events::Events,
+    set::Set,
     setup::{reset_terminal, restore_terminal, setup_terminal, Frame, Terminal},
     states::{States, Time},
-    widget::Widget,
-    WidgetResult,
+    widgets::message::MessageState,
+    IntoWidget, Widget, WidgetResult,
 };
 
 /// The powerhouse of tui-helper, runs all defined widgets for you at a set framerate
 pub struct App {
     terminal: Terminal,
-    widgets: Vec<Widget>,
-    chunk_builder: ChunkBuilder,
+    widgets: Vec<Box<dyn Widget>>,
     states: States,
     clock: Duration,
 }
 
 impl App {
-    pub fn new(
-        chunk_builder: impl FnMut(&mut Frame, &mut States) -> WidgetResult + 'static,
-        clock: u64,
-    ) -> Result<Self, Box<dyn Error>> {
+    /// Create a new app with the given clock time (in ms)
+    pub fn new(clock: u64) -> Result<Self, Box<dyn Error>> {
         let terminal = setup_terminal()?;
         Ok(Self {
             terminal,
             widgets: vec![],
-            chunk_builder: Box::new(chunk_builder),
             states: States::default(),
             clock: Duration::from_millis(clock),
         }
-        .register_state(Events::default()))
+        .with_state(Events::default()))
     }
 
     /// Running this will ensure that any panic that happens, this will catch
@@ -54,20 +51,26 @@ impl App {
     }
 
     /// Add a widget to the system
-    pub fn register_widget(
+    pub fn with_widget<I, W: Widget + 'static>(
         mut self,
-        widget: impl FnMut(&mut Frame, &mut States) -> WidgetResult + 'static,
+        widget: impl IntoWidget<I, Widget = W> + 'static,
     ) -> Self {
-        self.widgets.push(Box::new(widget));
+        self.widgets.push(Box::new(widget.into_widget()));
         self
     }
 
-    /// Add a stat to the system
-    pub fn register_state<S: Any>(mut self, state: S) -> Self {
+    /// Add a state to the system
+    pub fn with_state<S: Any>(mut self, state: S) -> Self {
         self.states.register(state);
         self
     }
 
+    /// Add a set to the system
+    pub fn with_set(self, set: impl Set) -> Self {
+        set.register_set(self)
+    }
+
+    /// Run the app, returning an error if any of the functions error out.
     pub fn run(mut self) -> Result<(), Box<dyn Error>> {
         let result = self.inner_run();
 
@@ -83,26 +86,35 @@ impl App {
             self.terminal.autoresize()?;
             let mut frame = self.terminal.get_frame();
 
-            self.states.get::<Chunks>()?.clear();
-            self.chunk_builder.as_mut()(&mut frame, &mut self.states)?;
+            {
+                let mut chunks = self.states.get::<Chunks>()?;
+                let mut chunks = chunks.get();
 
-            self.states.get::<Events>()?.events.clear();
+                chunks.clear();
 
-            let time = SystemTime::now();
+                let mut events = self.states.get::<Events>()?;
+                let mut events = events.get();
 
-            if crossterm::event::poll(self.clock)? {
-                self.states
-                    .get::<Events>()?
-                    .events
-                    .push(crossterm::event::read()?);
+                let mut time = self.states.get::<Time>()?;
+                let mut time = time.get();
+
+                events.events.clear();
+
+                let start_time = SystemTime::now();
+
+                if crossterm::event::poll(self.clock)? {
+                    events.events.push(crossterm::event::read()?);
+                }
+
+                let total_time = SystemTime::now().duration_since(start_time)?;
+
+                time.set_duration(total_time);
             }
 
-            let total_time = SystemTime::now().duration_since(time)?;
-
-            self.states.get::<Time>()?.set_duration(total_time);
+            self.states.get::<Chunks>()?.get();
 
             for widget in &mut self.widgets {
-                widget(&mut frame, &mut self.states)?;
+                widget.call(&mut frame, &mut self.states)?;
             }
 
             // Render Frame
@@ -113,7 +125,7 @@ impl App {
             self.terminal.backend_mut().flush()?;
 
             // Handle App Events
-            if self.states.get::<Events>()?.exit {
+            if self.states.get::<Events>()?.get().exit {
                 return Ok(());
             }
         }

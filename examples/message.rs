@@ -1,16 +1,14 @@
 extern crate tui_helper;
 
-use std::{error::Error, time::Duration};
+use std::{cell::RefMut, error::Error, time::Duration};
 
 use ratatui::prelude::{Constraint, Direction, Layout};
 use tui_helper::{
-    widgets::message::{message, Message, MessageChunk},
+    widgets::message::{Message, MessageChunk, MessageState},
     *,
 };
 
-fn chunk_builder(frame: &mut Frame, states: &mut States) -> WidgetResult {
-    let chunks = states.get::<Chunks>()?;
-
+fn chunk_builder(frame: &mut Frame, mut chunks: RefMut<Chunks>) -> WidgetResult {
     let popup = layout![
         frame.size(),
         constraint!(%50),
@@ -27,40 +25,31 @@ fn chunk_builder(frame: &mut Frame, states: &mut States) -> WidgetResult {
     Ok(())
 }
 
-fn my_widget(_frame: &mut Frame, states: &mut States) -> WidgetResult {
-    if states
-        .get::<Events>()?
-        .key(crossterm::event::KeyCode::Char('m'))
-    {
-        states
-            .get::<Message>()?
-            .render_message("Custom Message", Duration::from_millis(500));
+fn my_widget(
+    _frame: &mut Frame,
+    mut events: RefMut<Events>,
+    mut message: RefMut<MessageState>,
+) -> WidgetResult {
+    if events.key(crossterm::event::KeyCode::Char('m')) {
+        message.render_message("Custom Message", Duration::from_millis(500));
     }
 
-    if states
-        .get::<Events>()?
-        .key(crossterm::event::KeyCode::Char('n'))
-    {
-        states
-            .get::<Message>()?
-            .render_message("Error", Duration::from_millis(50))
+    if events.key(crossterm::event::KeyCode::Char('n')) {
+        message.render_message("Cool", Duration::from_millis(500));
     }
 
-    if states
-        .get::<Events>()?
-        .key(crossterm::event::KeyCode::Char('q'))
-    {
-        states.get::<Events>()?.register_exit();
+    if events.key(crossterm::event::KeyCode::Char('q')) {
+        events.register_exit()
     }
 
     Ok(())
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
-    App::new(chunk_builder, 100)?
+    App::new(100)?
         .handle_panics()
-        .register_widget(message)
-        .register_widget(my_widget)
-        .register_state(Message::default())
+        .with_widget(chunk_builder)
+        .with_widget(my_widget)
+        .with_set(Message)
         .run()
 }

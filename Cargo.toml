@@ -9,3 +9,4 @@ edition = "2021"
 anyhow = "1.0.75"
 crossterm = "0.27.0"
 ratatui = { version = "0.23.0", features = ["macros"] }
+tui-helper-proc-macro = { path = "tui-helper-proc-macro" }
