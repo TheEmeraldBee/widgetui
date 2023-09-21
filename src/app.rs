@@ -98,12 +98,12 @@ impl App {
                 let mut time = self.states.get::<Time>()?;
                 let mut time = time.get();
 
-                events.events.clear();
+                events.event = None;
 
                 let start_time = SystemTime::now();
 
                 if crossterm::event::poll(self.clock)? {
-                    events.events.push(crossterm::event::read()?);
+                    events.event = Some(crossterm::event::read()?);
                 }
 
                 let total_time = SystemTime::now().duration_since(start_time)?;

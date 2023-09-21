@@ -7,10 +7,6 @@ macro_rules! layout {
 
         let mut results = vec![vec![]; chunks.len()];
 
-        for i in 0..chunks.len() {
-            results[i] = vec![chunks[i]];
-        }
-
         let mut idx = -1;
 
         $(
