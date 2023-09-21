@@ -1,6 +1,4 @@
-extern crate tui_helper;
-
-use tui_helper::*;
+use widgetui::*;
 
 use std::{cell::RefMut, error::Error};
 

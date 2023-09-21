@@ -4,7 +4,7 @@ use ratatui::{
     prelude::{Constraint, Direction, Layout},
     widgets::Paragraph,
 };
-use tui_helper::*;
+use widgetui::*;
 
 struct TestChunk;
 

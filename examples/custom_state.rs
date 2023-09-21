@@ -1,7 +1,7 @@
 use std::{cell::RefMut, error::Error};
 
 use ratatui::widgets::Paragraph;
-use tui_helper::*;
+use widgetui::*;
 
 #[derive(FromState)]
 pub struct CustomState {

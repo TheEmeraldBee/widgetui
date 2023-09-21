@@ -1,9 +1,7 @@
-extern crate tui_helper;
-
 use std::{cell::RefMut, error::Error, time::Duration};
 
 use ratatui::prelude::{Constraint, Direction, Layout};
-use tui_helper::{
+use widgetui::{
     widgets::message::{Message, MessageChunk, MessageState},
     *,
 };

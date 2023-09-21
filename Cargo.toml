@@ -1,7 +1,15 @@
 [package]
-name = "tui-helper"
-version = "0.1.0"
+name = "widgetui"
 edition = "2021"
+description = "A bevy like widget system for ratatui and crossterm"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/TheEmeraldBee/widgetui"
+readme = "README.md"
+version.workspace = true
+
+[workspace]
+members = ["tui-helper-proc-macro"]
+package.version = "0.1.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -9,4 +17,4 @@ edition = "2021"
 anyhow = "1.0.75"
 crossterm = "0.27.0"
 ratatui = { version = "0.23.0", features = ["macros"] }
-tui-helper-proc-macro = { path = "tui-helper-proc-macro" }
+tui-helper-proc-macro = { path = "tui-helper-proc-macro", version="0.1.0" }
