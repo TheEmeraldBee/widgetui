@@ -1,5 +1,68 @@
 # Widgetui
-Using the power of rust, build apps incredibly quickly.
+Turn
+```rust
+fn main() -> Result<(), Box<dyn Error>> {
+    let mut terminal = setup_terminal()?;
+    run(&mut terminal)?;
+    restore_terminal(&mut terminal)?;
+    Ok(())
+}
+
+fn setup_terminal() -> Result<Terminal<CrosstermBackend<Stdout>>, Box<dyn Error>> {
+    let mut stdout = io::stdout();
+    enable_raw_mode()?;
+    execute!(stdout, EnterAlternateScreen)?;
+    Ok(Terminal::new(CrosstermBackend::new(stdout))?)
+}
+
+fn restore_terminal(
+    terminal: &mut Terminal<CrosstermBackend<Stdout>>,
+) -> Result<(), Box<dyn Error>> {
+    disable_raw_mode()?;
+    execute!(terminal.backend_mut(), LeaveAlternateScreen,)?;
+    Ok(terminal.show_cursor()?)
+}
+
+fn run(terminal: &mut Terminal<CrosstermBackend<Stdout>>) -> Result<(), Box<dyn Error>> {
+    Ok(loop {
+        terminal.draw(|frame| {
+            let greeting = Paragraph::new("Hello World!");
+            frame.render_widget(greeting, frame.size());
+        })?;
+        if event::poll(Duration::from_millis(250))? {
+            if let Event::Key(key) = event::read()? {
+                if KeyCode::Char('q') == key.code {
+                    break;
+                }
+            }
+        }
+    })
+}
+```
+
+Into
+
+```rust
+use ratatui::widgets::Paragraph;
+
+use widgetui::*;
+
+use std::{cell::RefMut, error::Error};
+
+fn widget(frame: &mut WidgetFrame, mut events: RefMut<Events>) -> WidgetResult {
+	frame.render_widget(Paragraph::new("Hello, world!", frame.size()));
+
+    if events.key(crossterm::event::KeyCode::Char('q')) {
+        events.register_exit();
+    }
+
+    Ok(())
+}
+
+fn main() -> Result<(), Box<dyn Error>> {
+    App::new(100)?.with_widget(widget).run()
+}
+```
 
 The goal of this project is to simplify the requirements to make a good project using tui.
 It removes boilerplate, and improves the developer experience by using the power of states, and dependency injection
