@@ -36,7 +36,6 @@ pub fn restore_terminal(mut terminal: WidgetTerminal) -> Result<(), Box<dyn Erro
 /// This is handled automatically if panic handler is enabled.
 pub fn reset_terminal() -> Result<(), Box<dyn Error>> {
     disable_raw_mode()?;
-    crossterm::execute!(stdout(), LeaveAlternateScreen)?;
-
+    execute!(stdout(), LeaveAlternateScreen)?;
     Ok(())
 }

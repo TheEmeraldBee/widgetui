@@ -9,6 +9,7 @@ use widgetui::*;
 struct TestChunk;
 
 pub fn chunk_generator(frame: &mut WidgetFrame, mut chunks: RefMut<Chunks>) -> WidgetResult {
+    // A Custom macro to simplify creating your chunks!
     let chunk = layout! {
         frame.size(),
         constraint!(%50),
