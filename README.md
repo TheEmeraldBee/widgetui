@@ -57,7 +57,7 @@ use widgetui::*;
 use std::{cell::RefMut, error::Error};
 
 fn widget(frame: &mut WidgetFrame, mut events: RefMut<Events>) -> WidgetResult {
-	frame.render_widget(Paragraph::new("Hello, world!", frame.size()));
+    frame.render_widget(Paragraph::new("Hello, world!", frame.size()));
 
     if events.key(crossterm::event::KeyCode::Char('q')) {
         events.register_exit();
@@ -67,7 +67,7 @@ fn widget(frame: &mut WidgetFrame, mut events: RefMut<Events>) -> WidgetResult {
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
-    App::new(100)?.with_widget(widget).run()
+    App::new(100)?.widgets(widget).run()
 }
 ```
 </details>
@@ -79,8 +79,6 @@ It removes boilerplate, and improves the developer experience by using the power
 Run the following within your project directory
 ```bash
 cargo add widgetui
-cargo add ratatui
-cargo add crossterm
 ```
 # Introduction
 
@@ -99,7 +97,7 @@ use widgetui::*;
 use std::{cell::RefMut, error::Error};
 
 fn widget(frame: &mut WidgetFrame, mut events: RefMut<Events>) -> WidgetResult {
-	frame.render_widget(Paragraph::new("Hello, world!", frame.size()));
+    frame.render_widget(Paragraph::new("Hello, world!", frame.size()));
 
     if events.key(crossterm::event::KeyCode::Char('q')) {
         events.register_exit();
@@ -109,7 +107,7 @@ fn widget(frame: &mut WidgetFrame, mut events: RefMut<Events>) -> WidgetResult {
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
-    App::new(100)?.with_widget(widget).run()
+    App::new(100)?.widgets(widget).run()
 }
 ```
 
@@ -123,7 +121,7 @@ Documentation can be found on [docs.rs](docs.rs/widgetui).
 - I chose `WidgetFrame` because if I just used `Widget`, then you couldn't do the awesome
 ```rust
 use widgetui::*;
-use ratatui::prelude::*;
+use widgetui::ratatui::prelude::*;
 ```
 
 - It took about 10 hours to get this project initially set up!
