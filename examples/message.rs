@@ -46,8 +46,7 @@ fn my_widget(
 fn main() -> Result<(), Box<dyn Error>> {
     App::new(100)?
         .handle_panics()
-        .with_widget(chunk_builder)
-        .with_widget(my_widget)
-        .with_set(Message)
+        .widgets((chunk_builder, my_widget))
+        .set(Message)
         .run()
 }

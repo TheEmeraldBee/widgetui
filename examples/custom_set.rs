@@ -37,9 +37,9 @@ pub fn widget(
 
 #[set]
 pub fn CoolSet(app: App) -> App {
-    app.with_widget(widget).with_state(CoolState::default())
+    app.widgets(widget).state(CoolState::default())
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
-    App::new(100)?.with_set(CoolSet).run()
+    App::new(100)?.set(CoolSet).run()
 }

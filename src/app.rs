@@ -13,7 +13,7 @@ use crate::{
     setup::{reset_terminal, restore_terminal, setup_terminal, WidgetFrame, WidgetTerminal},
     states::{States, Time},
     widgets::message::MessageState,
-    IntoWidget, Widget, WidgetResult,
+    IntoWidget, IntoWidgetSet, Widget, WidgetResult,
 };
 
 /// The powerhouse of tui-helper, runs all defined widgets for you at a set framerate
@@ -34,7 +34,7 @@ impl App {
             states: States::default(),
             clock: Duration::from_millis(clock),
         }
-        .with_state(Events::default()))
+        .state(Events::default()))
     }
 
     /// Running this will ensure that any panic that happens, this will catch
@@ -50,23 +50,23 @@ impl App {
         self
     }
 
-    /// Add a widget to the system
-    pub fn with_widget<I, W: Widget + 'static>(
-        mut self,
-        widget: impl IntoWidget<I, Widget = W> + 'static,
-    ) -> Self {
-        self.widgets.push(Box::new(widget.into_widget()));
+    /// Adds the following Widgets to the system.
+    /// This will take in a tuple of widgets, or a single widget.
+    pub fn widgets<I>(mut self, widget: impl IntoWidgetSet<I>) -> Self {
+        for widget in widget.into_widget_set() {
+            self.widgets.push(widget);
+        }
         self
     }
 
     /// Add a state to the system
-    pub fn with_state<S: Any>(mut self, state: S) -> Self {
+    pub fn state<S: Any>(mut self, state: S) -> Self {
         self.states.register(state);
         self
     }
 
     /// Add a set to the system
-    pub fn with_set(self, set: impl Set) -> Self {
+    pub fn set(self, set: impl Set) -> Self {
         set.register_set(self)
     }
 

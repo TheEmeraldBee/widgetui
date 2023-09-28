@@ -41,7 +41,6 @@ pub fn render(
 fn main() -> Result<(), Box<dyn Error>> {
     App::new(100)?
         .handle_panics()
-        .with_widget(chunk_generator)
-        .with_widget(render)
+        .widgets((chunk_generator, render))
         .run()
 }

@@ -14,5 +14,5 @@ fn widget(frame: &mut WidgetFrame, mut events: RefMut<Events>) -> WidgetResult {
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
-    App::new(100)?.with_widget(widget).run()
+    App::new(100)?.widgets(widget).run()
 }
