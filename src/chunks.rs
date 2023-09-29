@@ -11,8 +11,6 @@ use crate::{setup::WidgetFrame, States, WidgetResult};
 use crate::states::State;
 use crate::FromStates;
 
-pub type ChunkBuilder = Box<dyn FnMut(&mut WidgetFrame, &mut States) -> WidgetResult>;
-
 #[derive(Default, FromState)]
 pub struct Chunks {
     chunks: HashMap<TypeId, Rect>,

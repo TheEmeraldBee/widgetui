@@ -7,20 +7,20 @@ use std::{
 use ratatui::prelude::Backend;
 
 use crate::{
-    chunks::{ChunkBuilder, Chunks},
+    chunks::Chunks,
     events::Events,
     set::Set,
     setup::{reset_terminal, restore_terminal, setup_terminal, WidgetFrame, WidgetTerminal},
     states::{States, Time},
+    widget::{IntoWidgetSet, MultiFromStates, Widget},
     widgets::message::MessageState,
-    IntoWidget, IntoWidgetSet, Widget, WidgetResult,
 };
 
 /// The powerhouse of tui-helper, runs all defined widgets for you at a set framerate
 pub struct App {
     terminal: WidgetTerminal,
     widgets: Vec<Box<dyn Widget>>,
-    states: States,
+    pub(crate) states: States,
     clock: Duration,
 }
 
@@ -34,7 +34,7 @@ impl App {
             states: States::default(),
             clock: Duration::from_millis(clock),
         }
-        .state(Events::default()))
+        .states(Events::default()))
     }
 
     /// Running this will ensure that any panic that happens, this will catch
@@ -60,9 +60,8 @@ impl App {
     }
 
     /// Add a state to the system
-    pub fn state<S: Any>(mut self, state: S) -> Self {
-        self.states.register(state);
-        self
+    pub fn states<S: MultiFromStates>(self, state: S) -> Self {
+        state.insert_states(self)
     }
 
     /// Add a set to the system

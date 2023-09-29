@@ -24,7 +24,7 @@ pub use events::Events;
 pub use set::Set;
 pub use setup::{WidgetBackend, WidgetFrame, WidgetTerminal};
 pub use states::{State, States};
-pub use widget::*;
+pub use widget::{FromStates, WidgetResult};
 
 pub use tui_helper_proc_macro::set;
 pub use tui_helper_proc_macro::FromState;

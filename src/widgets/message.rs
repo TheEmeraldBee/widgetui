@@ -82,5 +82,5 @@ use crate::set::Set;
 
 #[set]
 pub fn Message(app: App) -> App {
-    app.widgets(message).state(MessageState::default())
+    app.widgets(message).states(MessageState::default())
 }
