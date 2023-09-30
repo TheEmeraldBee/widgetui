@@ -16,7 +16,7 @@ use crate::{
     widgets::message::MessageState,
 };
 
-/// The powerhouse of tui-helper, runs all defined widgets for you at a set framerate
+/// The powerhouse of widgetui, runs all defined widgets for you
 pub struct App {
     terminal: WidgetTerminal,
     widgets: Vec<Box<dyn Widget>>,
@@ -33,8 +33,7 @@ impl App {
             widgets: vec![],
             states: States::default(),
             clock: Duration::from_millis(clock),
-        }
-        .states(Events::default()))
+        })
     }
 
     /// Running this will ensure that any panic that happens, this will catch

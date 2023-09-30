@@ -10,12 +10,10 @@ use syn::{DeriveInput, ItemFn};
 
 #[proc_macro_derive(FromState)]
 pub fn from_state(input: TokenStream) -> TokenStream {
-    // Parse the input tokens into a syntax tree
     let input = parse_macro_input!(input as DeriveInput);
 
     let ident = input.ident;
 
-    // Build the output, possibly using quasi-quotation
     let expanded = quote! {
         impl FromStates for #ident {
             fn from_state(states: &mut States) -> Result<State<Self>, Box<dyn std::error::Error>> {
@@ -24,7 +22,6 @@ pub fn from_state(input: TokenStream) -> TokenStream {
         }
     };
 
-    // Hand the output tokens back to the compiler
     TokenStream::from(expanded)
 }
 

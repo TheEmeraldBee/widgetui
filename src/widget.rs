@@ -26,8 +26,9 @@ pub trait MultiFromStates {
 }
 
 impl<T: FromStates + 'static> MultiFromStates for T {
-    fn insert_states(self, app: App) -> App {
-        app.states(self)
+    fn insert_states(self, mut app: App) -> App {
+        app.states.register(self);
+        app
     }
 }
 
