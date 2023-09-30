@@ -12,9 +12,9 @@ pub fn chunk_generator(frame: &mut WidgetFrame, mut chunks: RefMut<Chunks>) -> W
     // A Custom macro to simplify creating your chunks!
     let chunk = layout! {
         frame.size(),
-        constraint!(%50),
-        constraint!(#1) => {constraint!(#3), constraint!(%100), constraint!(#3)},
-        constraint!(%50)
+        (%50),
+        (#1) => {#3, %100, #3},
+        (%50)
     }[1][1];
 
     chunks.register_chunk::<TestChunk>(chunk);

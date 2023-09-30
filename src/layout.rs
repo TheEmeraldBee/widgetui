@@ -1,8 +1,8 @@
 #[macro_export]
 macro_rules! layout {
-    ($size:expr, $($line:expr $(=> { $($row:expr),* })? ),+) => {{
+    ($size:expr, $(($($line:tt)*) $(=> { $($row:tt)* })? ),+) => {{
         let chunks = Layout::new().direction(Direction::Vertical).constraints([
-            $($line),+
+            $(constraint!($($line)*)),+
         ]).split($size);
 
         let mut results = vec![vec![]; chunks.len()];
@@ -14,9 +14,10 @@ macro_rules! layout {
             let i = idx as usize;
             results[i] = vec![chunks[i]];
             $(
-                let row = Layout::new().direction(Direction::Horizontal).constraints([
-                    $($row),*
-                ]).split(chunks[i]);
+                let row_constraints = layout!(@row $($row)*);
+                let row = Layout::new().direction(Direction::Horizontal).constraints(
+                    row_constraints
+                ).split(chunks[i]);
 
                 results[i].clear();
 
@@ -26,6 +27,38 @@ macro_rules! layout {
 
         results
     }};
+
+    (@row %$val:expr $(, $($row:tt)*)?) => {{
+        let mut constraint = vec![constraint!(%$val)];
+        $(constraint.append(&mut layout!(@row $($row)*));)?
+        constraint
+    }};
+
+    (@row #$val:expr $(, $($row:tt)*)?) => {{
+        let mut constraint = vec![constraint!(#$val)];
+        $(constraint.append(&mut layout!(@row $($row)*));)?
+        constraint
+    }};
+
+    (@row >$val:expr $(, $($row:tt)*)?) => {{
+        let mut constraint = vec![constraint!(>$val)];
+        $(constraint.append(&mut layout!(@row $($row)*));)?
+        constraint
+    }};
+
+    (@row <$val:expr $(, $($row:tt)*)?) => {{
+        let mut constraint = vec![constraint!(<$val)];
+        $(constraint.append(&mut layout!(@row $($row)*));)?
+        constraint
+    }};
+
+    (@row $val:expr ; $val2:expr $(, $($row:tt)*)?) => {{
+        let mut constraint = vec![constraint!($val ; $val2)];
+        $(constraint.append(&mut layout!(@row $($row)*));)?
+        constraint
+    }};
+
+
 }
 
 #[macro_export]
@@ -74,13 +107,13 @@ mod test {
     fn layout() {
         let popup = layout![
             Rect::new(0, 0, 1000, 1000),
-            constraint!(%50),
-            constraint!(>3) => {
-                constraint!(%10),
-                constraint!(%80),
-                constraint!(%10)
+            (%50),
+            (>3) => {
+                %10,
+                %80,
+                %10
             },
-            constraint!(%50)
+            (%50)
         ][1][1];
 
         let popup_test = Rect::new(26, 128, 204, 3);

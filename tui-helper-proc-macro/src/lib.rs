@@ -48,14 +48,3 @@ pub fn set(_inner: TokenStream, input: TokenStream) -> TokenStream {
 
     TokenStream::from(expanded)
 }
-
-// // Function Count,
-// // Example impl_tuple_set!(3)
-
-// #[proc_macro]
-// pub fn impl_tuple_set(input: TokenStream) -> TokenStream {
-//     use syn::parse::Parser;
-//     let data = syn::punctuated::Punctuated::<syn::Type, syn::Token![,]>::parse_terminated
-//         .parse2(input.into())
-//         .unwrap();
-// }

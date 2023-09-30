@@ -9,13 +9,13 @@ use widgetui::{
 fn chunk_builder(frame: &mut WidgetFrame, mut chunks: RefMut<Chunks>) -> WidgetResult {
     let popup = layout![
         frame.size(),
-        constraint!(%50),
-        constraint!(>3) => {
-            constraint!(%10),
-            constraint!(%80),
-            constraint!(%10)
+        (%50),
+        (>3) => {
+            %10,
+            %80,
+            %10
         },
-        constraint!(%50)
+        (%50)
     ][1][1];
 
     chunks.register_chunk::<MessageChunk>(popup);
