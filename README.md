@@ -115,7 +115,8 @@ The above will create an application that will display an empty terminal window,
 
 This application, with many less lines, will render the same thing that Ratatui's Quickstart renders.
 # Documentation
-Documentation can be found on [docs.rs](docs.rs/widgetui).
+Documentation can be found on [docs.rs](https://docs.rs/widgetui).
+Need help? Check the [wiki](https://github.com/TheEmeraldBee/widgetui/wiki)!
 
 # Fun Facts
 - I chose `WidgetFrame` because if I just used `Widget`, then you couldn't do the awesome
