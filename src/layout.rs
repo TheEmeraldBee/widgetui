@@ -1,4 +1,23 @@
 #[macro_export]
+/// Generates a layout from given perameters.
+/**
+Formatting:
+Put size first.
+Then `,`
+Then (constraint)
+Constraints:
+- %Num: Percentage
+- #Num: Length
+- >Num: Min
+- <Num: Max
+- Num ; Num: Ratio
+Then Either , to make new row, or => {} to add horizontal limits to row.
+If horizontal limits, then
+constraint and optionally more
+
+Ex:
+Custom Chunks Example
+*/
 macro_rules! layout {
     ($size:expr, $(($($line:tt)*) $(=> { $($row:tt)* })? ),+) => {{
         let chunks = Layout::new().direction(Direction::Vertical).constraints([
@@ -61,6 +80,14 @@ macro_rules! layout {
 
 }
 
+/**
+Constraints:
+- %Num: Percentage
+- #Num: Length
+- >Num: Min
+- <Num: Max
+- Num ; Num: Ratio
+*/
 #[macro_export]
 macro_rules! constraint {
     (%$val:expr) => {

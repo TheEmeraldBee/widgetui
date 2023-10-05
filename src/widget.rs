@@ -12,6 +12,7 @@ use crate::{
     App,
 };
 
+/// The main result that a widget will always return.
 pub type WidgetResult = Result<(), Box<dyn Error>>;
 
 /// Trait that enables the type implemented to be created from a state.
@@ -147,6 +148,7 @@ impl_into_widget! { A B C D E F G H I J }
 impl_into_widget! { A B C D E F G H I J K }
 impl_into_widget! { A B C D E F G H I J K L }
 
+/// Enables a tuple of Widgets to be registered with the widget method.
 pub trait IntoWidgetSet<Inputs> {
     fn into_widget_set(self) -> Vec<Box<dyn Widget>>;
 }

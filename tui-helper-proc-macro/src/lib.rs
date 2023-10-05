@@ -9,6 +9,7 @@ use proc_macro::TokenStream;
 use syn::{DeriveInput, ItemFn};
 
 #[proc_macro_derive(FromState)]
+/// Implements the FromStates trait for the derived struct.
 pub fn from_state(input: TokenStream) -> TokenStream {
     let input = parse_macro_input!(input as DeriveInput);
 
@@ -25,6 +26,8 @@ pub fn from_state(input: TokenStream) -> TokenStream {
     TokenStream::from(expanded)
 }
 
+/// Turns a function into a set.
+/// Allows for simpler definitions of sets.
 #[proc_macro_attribute]
 pub fn set(_inner: TokenStream, input: TokenStream) -> TokenStream {
     let input = parse_macro_input!(input as ItemFn);
