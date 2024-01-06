@@ -10,7 +10,6 @@ pub struct MessageChunk;
 use crate::states::State;
 use crate::{App, FromStates};
 
-#[derive(FromState)]
 pub struct MessageState {
     active_message: Option<(String, Duration)>,
     messages: VecDeque<(String, Duration)>,

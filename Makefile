@@ -7,6 +7,5 @@ build:
 publish:
 	sed -i -r "s/package.version=\"0\.0\.0\"/package.version=\"${VERSION}\"/g" "$(VERSION_FILE)" \
 	  && sed -i -r "s/0\.0\.0/${VERSION}/g" "$(VERSION_FILE)" \
-	  && cargo publish --package tui-helper-proc-macro --allow-dirty \
 	  && cargo publish --allow-dirty \
 

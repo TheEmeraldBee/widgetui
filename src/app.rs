@@ -9,7 +9,7 @@ use ratatui::prelude::Backend;
 use crate::{
     chunks::Chunks,
     events::Events,
-    set::Set,
+    set::{Set, Sets},
     setup::{reset_terminal, restore_terminal, setup_terminal, WidgetFrame, WidgetTerminal},
     states::{States, Time},
     widget::{IntoWidgetSet, MultiFromStates, Widget},
@@ -58,14 +58,15 @@ impl App {
         self
     }
 
-    /// Add a state to the system
+    /// Add the following states to the system
+    /// This will take in a state or a tuple of states.
     pub fn states<S: MultiFromStates>(self, state: S) -> Self {
         state.insert_states(self)
     }
 
     /// Add a set to the system
-    pub fn set(self, set: impl Set) -> Self {
-        set.register_set(self)
+    pub fn sets(self, set: impl Sets) -> Self {
+        set.register_sets(self)
     }
 
     /// Run the app, returning an error if any of the functions error out.

@@ -13,7 +13,7 @@ use crate::states::State;
 use crate::FromStates;
 
 /// The default system of storage for the system.
-#[derive(Default, FromState)]
+#[derive(Default)]
 pub struct Chunks {
     chunks: HashMap<TypeId, Rect>,
 }

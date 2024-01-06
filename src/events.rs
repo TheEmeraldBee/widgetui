@@ -5,7 +5,7 @@ use crate::State;
 use crate::States;
 
 /// A state that wraps over the events from crossterm
-#[derive(Default, Clone, FromState)]
+#[derive(Default, Clone)]
 pub struct Events {
     pub event: Option<Event>,
     pub(crate) exit: bool,

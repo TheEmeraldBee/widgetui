@@ -3,7 +3,6 @@ use std::{cell::RefMut, error::Error};
 use ratatui::widgets::Paragraph;
 use widgetui::*;
 
-#[derive(FromState)]
 pub struct CustomState {
     state: i32,
 }

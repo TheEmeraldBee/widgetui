@@ -1,5 +1,5 @@
 use std::{
-    cell::RefMut,
+    cell::{Ref, RefMut},
     error::Error,
     marker::PhantomData,
     sync::{Arc, Mutex},
@@ -16,8 +16,15 @@ use crate::{
 pub type WidgetResult = Result<(), Box<dyn Error>>;
 
 /// Trait that enables the type implemented to be created from a state.
+/// Does not need to be manually implemented
 pub trait FromStates {
     fn from_state(states: &mut States) -> Result<State<Self>, Box<dyn Error>>;
+}
+
+impl<T: Sized + 'static> FromStates for T {
+    fn from_state(states: &mut States) -> Result<State<Self>, Box<dyn Error>> {
+        states.get::<Self>()
+    }
 }
 
 /// Trait that enables tuples to be registered into the app.
@@ -32,38 +39,6 @@ impl<T: FromStates + 'static> MultiFromStates for T {
         app
     }
 }
-
-macro_rules! impl_for_state_tuple {
-    ($($item:ident $num:tt)*) => {
-        impl <$($item: FromStates + 'static),*> MultiFromStates for ($($item,)*) {
-            fn insert_states(self, mut app: App) -> App {
-                $(app.states.register(self.$num);)*
-                app
-            }
-        }
-    }
-}
-
-impl_for_state_tuple! { A0 0 }
-impl_for_state_tuple! { A0 0 A1 1 }
-impl_for_state_tuple! { A0 0 A1 1 A2 2 }
-impl_for_state_tuple! { A0 0 A1 1 A2 2 A3 3 }
-impl_for_state_tuple! { A0 0 A1 1 A2 2 A3 3 A4 4 }
-impl_for_state_tuple! { A0 0 A1 1 A2 2 A3 3 A4 4 A5 5 }
-impl_for_state_tuple! { A0 0 A1 1 A2 2 A3 3 A4 4 A5 5 A6 6 }
-impl_for_state_tuple! { A0 0 A1 1 A2 2 A3 3 A4 4 A5 5 A6 6 A7 7 }
-impl_for_state_tuple! { A0 0 A1 1 A2 2 A3 3 A4 4 A5 5 A6 6 A7 7 A8 8 }
-impl_for_state_tuple! { A0 0 A1 1 A2 2 A3 3 A4 4 A5 5 A6 6 A7 7 A8 8 A9 9 }
-impl_for_state_tuple! { A0 0 A1 1 A2 2 A3 3 A4 4 A5 5 A6 6 A7 7 A8 8 A9 9 A10 10 }
-impl_for_state_tuple! { A0 0 A1 1 A2 2 A3 3 A4 4 A5 5 A6 6 A7 7 A8 8 A9 9 A10 10 A11 11 }
-impl_for_state_tuple! { A0 0 A1 1 A2 2 A3 3 A4 4 A5 5 A6 6 A7 7 A8 8 A9 9 A10 10 A11 11 A12 12 }
-impl_for_state_tuple! { A0 0 A1 1 A2 2 A3 3 A4 4 A5 5 A6 6 A7 7 A8 8 A9 9 A10 10 A11 11 A12 12 A13 13 }
-impl_for_state_tuple! { A0 0 A1 1 A2 2 A3 3 A4 4 A5 5 A6 6 A7 7 A8 8 A9 9 A10 10 A11 11 A12 12 A13 13 A14 14 }
-impl_for_state_tuple! { A0 0 A1 1 A2 2 A3 3 A4 4 A5 5 A6 6 A7 7 A8 8 A9 9 A10 10 A11 11 A12 12 A13 13 A14 14 A15 15 }
-impl_for_state_tuple! { A0 0 A1 1 A2 2 A3 3 A4 4 A5 5 A6 6 A7 7 A8 8 A9 9 A10 10 A11 11 A12 12 A13 13 A14 14 A15 15 A16 16 }
-impl_for_state_tuple! { A0 0 A1 1 A2 2 A3 3 A4 4 A5 5 A6 6 A7 7 A8 8 A9 9 A10 10 A11 11 A12 12 A13 13 A14 14 A15 15 A16 16 A17 17 }
-impl_for_state_tuple! { A0 0 A1 1 A2 2 A3 3 A4 4 A5 5 A6 6 A7 7 A8 8 A9 9 A10 10 A11 11 A12 12 A13 13 A14 14 A15 15 A16 16 A17 17 A18 18 }
-impl_for_state_tuple! { A0 0 A1 1 A2 2 A3 3 A4 4 A5 5 A6 6 A7 7 A8 8 A9 9 A10 10 A11 11 A12 12 A13 13 A14 14 A15 15 A16 16 A17 17 A18 18 A19 19 }
 
 /// A widget that can be called.
 pub trait Widget {

@@ -3,7 +3,7 @@ use std::{cell::RefMut, error::Error};
 use ratatui::widgets::Paragraph;
 use widgetui::*;
 
-#[derive(FromState)]
+// This creates a state! No derive macro required
 pub struct CoolState {
     pub q_count: i32,
 }
@@ -41,5 +41,5 @@ pub fn CoolSet(app: App) -> App {
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
-    App::new(100)?.set(CoolSet).run()
+    App::new(100)?.sets(CoolSet).run()
 }

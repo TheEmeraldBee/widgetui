@@ -80,7 +80,7 @@ pub trait FromState {
 // ---------- Guarenteed States --------- //
 
 /// The state that will store anything time related for the system.
-#[derive(Default, Clone, FromState)]
+#[derive(Default, Clone)]
 pub struct Time {
     frame_duration: Duration,
 }
