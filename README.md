@@ -57,7 +57,7 @@ use widgetui::*;
 use std::{cell::RefMut, error::Error};
 
 fn widget(frame: &mut WidgetFrame, mut events: RefMut<Events>) -> WidgetResult {
-    frame.render_widget(Paragraph::new("Hello, world!", frame.size()));
+    frame.render_widget(Paragraph::new("Hello, world!"), frame.size());
 
     if events.key(crossterm::event::KeyCode::Char('q')) {
         events.register_exit();
@@ -97,7 +97,7 @@ use widgetui::*;
 use std::{cell::RefMut, error::Error};
 
 fn widget(frame: &mut WidgetFrame, mut events: RefMut<Events>) -> WidgetResult {
-    frame.render_widget(Paragraph::new("Hello, world!", frame.size()));
+    frame.render_widget(Paragraph::new("Hello, world!"), frame.size());
 
     if events.key(crossterm::event::KeyCode::Char('q')) {
         events.register_exit();
