@@ -22,7 +22,9 @@ macro_rules! layout {
     ($size:expr, $(($($line:tt)*) $(=> { $($row:tt)* })? ),+) => {{
         let chunks = Layout::new(Direction::Vertical, [
             $(constraint!($($line)*)),+
-        ]).split($size);
+        ])
+        .flex(ratatui::layout::Flex::Legacy)
+        .split($size);
 
         let mut results = vec![vec![]; chunks.len()];
 
@@ -36,7 +38,9 @@ macro_rules! layout {
                 let row_constraints = layout!(@row $($row)*);
                 let row = Layout::new(Direction::Horizontal,
                     row_constraints
-                ).split(chunks[i]);
+                )
+                .flex(ratatui::layout::Flex::Legacy)
+                .split(chunks[i]);
 
                 results[i].clear();
 
