@@ -10,7 +10,7 @@ use crossterm::{
 use ratatui::prelude::CrosstermBackend;
 
 pub type WidgetBackend = CrosstermBackend<Stdout>;
-pub type WidgetFrame<'a> = ratatui::Frame<'a, CrosstermBackend<Stdout>>;
+pub type WidgetFrame<'a> = ratatui::Frame<'a>;
 pub type WidgetTerminal = ratatui::Terminal<WidgetBackend>;
 
 /// Sets up the terminal to work with your app

@@ -20,7 +20,7 @@ Custom Chunks Example
 */
 macro_rules! layout {
     ($size:expr, $(($($line:tt)*) $(=> { $($row:tt)* })? ),+) => {{
-        let chunks = Layout::new().direction(Direction::Vertical).constraints([
+        let chunks = Layout::new(Direction::Vertical, [
             $(constraint!($($line)*)),+
         ]).split($size);
 
@@ -34,7 +34,7 @@ macro_rules! layout {
             results[i] = vec![chunks[i]];
             $(
                 let row_constraints = layout!(@row $($row)*);
-                let row = Layout::new().direction(Direction::Horizontal).constraints(
+                let row = Layout::new(Direction::Horizontal,
                     row_constraints
                 ).split(chunks[i]);
 
@@ -143,7 +143,7 @@ mod test {
             (%50)
         ][1][1];
 
-        let popup_test = Rect::new(26, 128, 204, 3);
+        let popup_test = Rect::new(26, 125, 204, 3);
 
         assert_eq!(popup, popup_test);
     }
