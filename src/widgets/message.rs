@@ -1,15 +1,15 @@
-use std::cell::RefMut;
 use std::{collections::VecDeque, time::Duration};
 
-use ratatui::widgets::{Block, Borders, Paragraph};
+use ratatui::buffer::Buffer;
+use ratatui::widgets::{Block, Borders, Paragraph, Widget};
 
-use crate::{states::Time, Chunks, States, WidgetFrame, WidgetResult};
+use crate::{states::Time, Chunks, WidgetFrame, WidgetResult};
 
 pub struct MessageChunk;
 
-use crate::states::State;
-use crate::{App, FromStates};
+use crate::{App, Res, ResMut, State};
 
+#[derive(State)]
 pub struct MessageState {
     active_message: Option<(String, Duration)>,
     messages: VecDeque<(String, Duration)>,
@@ -42,10 +42,10 @@ impl MessageState {
 
 /// A Timed Message Render
 pub fn message(
-    frame: &mut WidgetFrame,
-    timer: RefMut<Time>,
-    chunks: RefMut<Chunks>,
-    mut messages: RefMut<MessageState>,
+    mut frame: ResMut<Buffer>,
+    timer: Res<Time>,
+    chunks: Res<Chunks>,
+    mut messages: ResMut<MessageState>,
 ) -> WidgetResult {
     let time = timer.frame_time();
     let rect = chunks.get_chunk::<MessageChunk>()?;
@@ -60,18 +60,16 @@ pub fn message(
         if message.1.is_zero() {
             messages.active_message = None;
         } else {
-            frame.render_widget(
-                Paragraph::new(message.0.clone()).block(messages.block.clone()),
-                rect,
-            )
+            Paragraph::new(message.0.clone())
+                .block(messages.block.clone())
+                .render(rect, &mut frame)
         }
     } else if let Some(message) = messages.messages.pop_front() {
         messages.active_message = Some(message.clone());
 
-        frame.render_widget(
-            Paragraph::new(message.0).block(messages.block.clone()),
-            rect,
-        );
+        Paragraph::new(message.0)
+            .block(messages.block.clone())
+            .render(rect, &mut frame);
     }
 
     Ok(())

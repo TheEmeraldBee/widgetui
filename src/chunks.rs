@@ -7,13 +7,10 @@ use std::{
 
 use ratatui::prelude::Rect;
 
-use crate::{setup::WidgetFrame, States, WidgetResult};
-
-use crate::states::State;
-use crate::FromStates;
+use crate::*;
 
 /// The default system of storage for the system.
-#[derive(Default)]
+#[derive(Default, State)]
 pub struct Chunks {
     chunks: HashMap<TypeId, Rect>,
 }
@@ -32,9 +29,9 @@ impl Chunks {
     /// Returns a rect if the type id is within the chunk,
     /// an error is thrown if it isn't registered.
     pub fn get_chunk<T: Any>(&self) -> Result<Rect, Box<dyn Error>> {
-        return match self.chunks.get(&TypeId::of::<T>()).cloned() {
+        match self.chunks.get(&TypeId::of::<T>()).cloned() {
             Some(chunk) => Ok(chunk),
             None => Err(anyhow!("Chunk doesn't exist").into()),
-        };
+        }
     }
 }

@@ -1,4 +1,4 @@
-use std::{cell::RefMut, error::Error};
+use std::error::Error;
 
 use ratatui::{
     prelude::{Constraint, Direction, Layout},
@@ -8,7 +8,7 @@ use widgetui::*;
 
 struct TestChunk;
 
-pub fn chunk_generator(frame: &mut WidgetFrame, mut chunks: RefMut<Chunks>) -> WidgetResult {
+pub fn chunk_generator(frame: Res<WidgetFrame>, mut chunks: ResMut<Chunks>) -> WidgetResult {
     // A Custom macro to simplify creating your chunks!
     let chunk = layout! {
         frame.size(),
@@ -23,9 +23,9 @@ pub fn chunk_generator(frame: &mut WidgetFrame, mut chunks: RefMut<Chunks>) -> W
 }
 
 pub fn render(
-    frame: &mut WidgetFrame,
-    chunks: RefMut<Chunks>,
-    mut events: RefMut<Events>,
+    mut frame: ResMut<WidgetFrame>,
+    chunks: Res<Chunks>,
+    mut events: ResMut<Events>,
 ) -> WidgetResult {
     let chunk = chunks.get_chunk::<TestChunk>()?;
 

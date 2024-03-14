@@ -1,8 +1,9 @@
-use std::{cell::RefMut, error::Error};
+use std::error::Error;
 
 use ratatui::widgets::Paragraph;
 use widgetui::*;
 
+#[derive(State)]
 pub struct CustomState {
     state: i32,
 }
@@ -10,10 +11,10 @@ pub struct CustomState {
 pub struct CustomChunk;
 
 pub fn handle_state(
-    frame: &mut WidgetFrame,
-    mut custom_state: RefMut<CustomState>,
-    mut events: RefMut<Events>,
-    mut chunks: RefMut<Chunks>,
+    mut frame: ResMut<WidgetFrame>,
+    mut custom_state: ResMut<CustomState>,
+    mut events: ResMut<Events>,
+    mut chunks: ResMut<Chunks>,
 ) -> WidgetResult {
     // Register A Test Chunk
     chunks.register_chunk::<CustomChunk>(frame.size());

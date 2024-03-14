@@ -23,11 +23,13 @@ pub use chunks::Chunks;
 pub use events::Events;
 pub use set::Set;
 pub use setup::{WidgetBackend, WidgetFrame, WidgetTerminal};
-pub use states::{State, States};
-pub use widget::{FromStates, WidgetResult};
+pub use states::{MultiFromStates, State};
+pub use widget::{into_widget_set::IntoWidgetSet, WidgetResult};
 
 pub use tui_helper_proc_macro::set;
-pub use tui_helper_proc_macro::FromState;
+pub use tui_helper_proc_macro::State;
+
+pub use widget::param::*;
 
 // Re-Exports
 pub use crossterm;

@@ -2,10 +2,11 @@ use crossterm::event::KeyCode;
 use ratatui::widgets::Paragraph;
 use widgetui::*;
 
-use std::{cell::RefMut, error::Error};
+use std::error::Error;
 
-fn widget(frame: &mut WidgetFrame, mut events: RefMut<Events>) -> WidgetResult {
-    frame.render_widget(Paragraph::new("Hello, world!"), frame.size());
+fn widget(mut frame: ResMut<WidgetFrame>, mut events: ResMut<Events>) -> WidgetResult {
+    let size = frame.size();
+    frame.render_widget(Paragraph::new("Hello, world!"), size);
 
     if events.key(KeyCode::Char('q')) {
         events.register_exit();

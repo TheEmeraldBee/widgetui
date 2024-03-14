@@ -1,4 +1,4 @@
-use std::{cell::RefMut, error::Error, time::Duration};
+use std::{error::Error, time::Duration};
 
 use ratatui::prelude::{Constraint, Direction, Layout};
 use widgetui::{
@@ -6,7 +6,7 @@ use widgetui::{
     *,
 };
 
-fn chunk_builder(frame: &mut WidgetFrame, mut chunks: RefMut<Chunks>) -> WidgetResult {
+fn chunk_builder(frame: Res<'_, WidgetFrame>, mut chunks: ResMut<'_, Chunks>) -> WidgetResult {
     let popup = layout![
         frame.size(),
         (%50),
@@ -23,11 +23,7 @@ fn chunk_builder(frame: &mut WidgetFrame, mut chunks: RefMut<Chunks>) -> WidgetR
     Ok(())
 }
 
-fn my_widget(
-    _frame: &mut WidgetFrame,
-    mut events: RefMut<Events>,
-    mut message: RefMut<MessageState>,
-) -> WidgetResult {
+fn my_widget(mut events: ResMut<Events>, mut message: ResMut<MessageState>) -> WidgetResult {
     if events.key(crossterm::event::KeyCode::Char('m')) {
         message.render_message("Custom Message", Duration::from_millis(500));
     }

@@ -1,9 +1,9 @@
-use std::{cell::RefMut, error::Error};
+use std::error::Error;
 
 use ratatui::widgets::Paragraph;
 use widgetui::*;
 
-// This creates a state! No derive macro required
+#[derive(State)]
 pub struct CoolState {
     pub q_count: i32,
 }
@@ -15,9 +15,9 @@ impl Default for CoolState {
 }
 
 pub fn widget(
-    frame: &mut WidgetFrame,
-    mut events: RefMut<Events>,
-    mut state: RefMut<CoolState>,
+    mut frame: ResMut<WidgetFrame>,
+    mut events: ResMut<Events>,
+    mut state: ResMut<CoolState>,
 ) -> WidgetResult {
     if events.key(crossterm::event::KeyCode::Char('q')) {
         state.q_count -= 1;
@@ -27,9 +27,11 @@ pub fn widget(
         }
     }
 
+    let size = frame.size();
+
     frame.render_widget(
         Paragraph::new(format!("Press `q` {} more times", state.q_count)),
-        frame.size(),
+        size,
     );
 
     Ok(())
