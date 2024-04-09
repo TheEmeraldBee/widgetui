@@ -1,4 +1,4 @@
-use crossterm::event::{Event, KeyCode, KeyEvent};
+use crossterm::event::{Event, KeyCode, KeyEvent, KeyEventKind};
 
 use crate::State;
 
@@ -13,7 +13,7 @@ impl Events {
     /// Returns whether a key was pressed this frame.
     pub fn key(&self, code: KeyCode) -> bool {
         if let Some(Event::Key(key_event)) = self.event {
-            if key_event.code == code {
+            if key_event.code == code && key_event.kind == KeyEventKind::Press {
                 return true;
             }
         }
@@ -24,7 +24,7 @@ impl Events {
     /// Returns whether a Key Event was completed this frame.
     pub fn key_event(&self, check_event: KeyEvent) -> bool {
         if let Some(Event::Key(key_event)) = self.event {
-            if key_event == check_event {
+            if key_event == check_event && key_event.kind == KeyEventKind::Press {
                 return true;
             }
         }
@@ -36,7 +36,7 @@ impl Events {
     /// This will consume the key, not passing it on to future widgets.
     pub fn consume_key(&mut self, code: KeyCode) -> bool {
         if let Some(Event::Key(key_event)) = self.event {
-            if key_event.code == code {
+            if key_event.code == code && key_event.kind == KeyEventKind::Press {
                 self.event = None;
                 return true;
             }
