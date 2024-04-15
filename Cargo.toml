@@ -15,5 +15,5 @@ package.version = "0.0.0"
 [dependencies]
 anyhow = "1.0.75"
 crossterm = "0.27.0"
-ratatui = { version = "0.26.1", features = ["macros"] }
+ratatui = "0.26.2"
 tui-helper-proc-macro = { path = "tui-helper-proc-macro", version = "0.0.0" }
