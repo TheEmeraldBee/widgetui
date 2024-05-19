@@ -50,15 +50,17 @@ Into
 <summary>Much Better</summary>
 
 ```rust
+use crossterm::event::KeyCode;
 use ratatui::widgets::Paragraph;
-
 use widgetui::*;
 
+use std::error::Error;
+
 fn widget(mut frame: ResMut<WidgetFrame>, mut events: ResMut<Events>) -> WidgetResult {
-    let size = frame.size()
+    let size = frame.size();
     frame.render_widget(Paragraph::new("Hello, world!"), size);
 
-    if events.key(crossterm::event::KeyCode::Char('q')) {
+    if events.key(KeyCode::Char('q')) {
         events.register_exit();
     }
 
@@ -89,15 +91,17 @@ Widgetui isn't meant to replace or undermine Ratatui. It is simply a wrapper. Wi
 
 # Quickstart
 ```rust
+use crossterm::event::KeyCode;
 use ratatui::widgets::Paragraph;
-
 use widgetui::*;
 
+use std::error::Error;
+
 fn widget(mut frame: ResMut<WidgetFrame>, mut events: ResMut<Events>) -> WidgetResult {
-    let size = frame.size()
+    let size = frame.size();
     frame.render_widget(Paragraph::new("Hello, world!"), size);
 
-    if events.key(crossterm::event::KeyCode::Char('q')) {
+    if events.key(KeyCode::Char('q')) {
         events.register_exit();
     }
 
