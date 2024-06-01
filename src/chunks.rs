@@ -9,6 +9,8 @@ use ratatui::prelude::Rect;
 
 use crate::*;
 
+use self::widget::WidgetError;
+
 /// The default system of storage for the system.
 #[derive(Default, State)]
 pub struct Chunks {
@@ -28,10 +30,10 @@ impl Chunks {
 
     /// Returns a rect if the type id is within the chunk,
     /// an error is thrown if it isn't registered.
-    pub fn get_chunk<T: Any>(&self) -> Result<Rect, Box<dyn Error>> {
+    pub fn get_chunk<T: Any>(&self) -> Result<Rect, WidgetError> {
         match self.chunks.get(&TypeId::of::<T>()).cloned() {
             Some(chunk) => Ok(chunk),
-            None => Err(anyhow!("Chunk doesn't exist").into()),
+            None => Err(WidgetError::ChunkError),
         }
     }
 }
