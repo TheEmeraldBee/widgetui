@@ -43,5 +43,5 @@ pub fn CoolSet(app: App) -> App {
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
-    App::new(100)?.sets(CoolSet).run()
+    Ok(App::new(100)?.sets(CoolSet).run()?)
 }

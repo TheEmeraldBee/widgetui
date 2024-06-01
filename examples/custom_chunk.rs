@@ -39,8 +39,8 @@ pub fn render(
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
-    App::new(100)?
+    Ok(App::new(100)?
         .handle_panics()
         .widgets((chunk_generator, render))
-        .run()
+        .run()?)
 }

@@ -35,9 +35,9 @@ pub fn handle_state(
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
-    App::new(100)?
+    Ok(App::new(100)?
         .states(CustomState { state: 0 })
         .widgets(handle_state)
         .handle_panics()
-        .run()
+        .run()?)
 }

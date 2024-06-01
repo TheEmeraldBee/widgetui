@@ -40,9 +40,9 @@ fn my_widget(mut events: ResMut<Events>, mut message: ResMut<MessageState>) -> W
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
-    App::new(100)?
+    Ok(App::new(100)?
         .handle_panics()
         .widgets((chunk_builder, my_widget))
         .sets(Message)
-        .run()
+        .run()?)
 }

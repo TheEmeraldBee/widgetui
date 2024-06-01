@@ -18,7 +18,7 @@ use crate::{
     states::{MultiFromStates, States, Time},
     widget::{into_widget::IntoWidget, into_widget_set::IntoWidgetSet, Widget},
     widgets::message::MessageState,
-    Res, ResMut, WidgetParam,
+    Res, ResMut, WidgetParam, WidgetResult,
 };
 
 /// The powerhouse of widgetui, runs all defined widgets for you
@@ -83,7 +83,7 @@ impl App {
     }
 
     /// Run the app, returning an error if any of the functions error out.
-    pub fn run(mut self) -> Result<(), Box<dyn Error>> {
+    pub fn run(mut self) -> WidgetResult {
         let result = self.inner_run();
 
         restore_terminal(self.terminal)?;
@@ -91,7 +91,7 @@ impl App {
         result
     }
 
-    fn inner_run(&mut self) -> Result<(), Box<dyn Error>> {
+    fn inner_run(&mut self) -> WidgetResult {
         self.terminal.hide_cursor()?;
 
         loop {
@@ -127,7 +127,7 @@ impl App {
                     events.event = Some(crossterm::event::read()?);
                 }
 
-                let total_time = SystemTime::now().duration_since(start_time)?;
+                let total_time = SystemTime::now().duration_since(start_time).unwrap();
 
                 time.set_duration(total_time);
             }
