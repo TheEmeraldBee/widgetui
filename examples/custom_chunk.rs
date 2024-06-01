@@ -1,5 +1,4 @@
-use std::error::Error;
-
+use anyhow::Result;
 use ratatui::{
     prelude::{Constraint, Direction, Layout},
     widgets::Paragraph,
@@ -38,7 +37,7 @@ pub fn render(
     Ok(())
 }
 
-fn main() -> Result<(), Box<dyn Error>> {
+fn main() -> Result<()> {
     App::new(100)?
         .handle_panics()
         .widgets((chunk_generator, render))

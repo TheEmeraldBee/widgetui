@@ -1,5 +1,6 @@
-use std::{error::Error, time::Duration};
+use std::time::Duration;
 
+use anyhow::Result;
 use ratatui::prelude::{Constraint, Direction, Layout};
 use widgetui::{
     widgets::message::{Message, MessageChunk, MessageState},
@@ -39,7 +40,7 @@ fn my_widget(mut events: ResMut<Events>, mut message: ResMut<MessageState>) -> W
     Ok(())
 }
 
-fn main() -> Result<(), Box<dyn Error>> {
+fn main() -> Result<()> {
     App::new(100)?
         .handle_panics()
         .widgets((chunk_builder, my_widget))

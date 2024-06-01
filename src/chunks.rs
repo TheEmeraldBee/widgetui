@@ -2,9 +2,9 @@ use std::{
     any::{Any, TypeId},
     cell::RefMut,
     collections::HashMap,
-    error::Error,
 };
 
+use anyhow::Result;
 use ratatui::prelude::Rect;
 
 use crate::*;
@@ -28,10 +28,10 @@ impl Chunks {
 
     /// Returns a rect if the type id is within the chunk,
     /// an error is thrown if it isn't registered.
-    pub fn get_chunk<T: Any>(&self) -> Result<Rect, Box<dyn Error>> {
+    pub fn get_chunk<T: Any>(&self) -> Result<Rect> {
         match self.chunks.get(&TypeId::of::<T>()).cloned() {
             Some(chunk) => Ok(chunk),
-            None => Err(anyhow!("Chunk doesn't exist").into()),
+            None => bail!("Chunk doesn't exist"),
         }
     }
 }

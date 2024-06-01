@@ -1,5 +1,4 @@
-use std::error::Error;
-
+use anyhow::Result;
 use ratatui::widgets::Paragraph;
 use widgetui::*;
 
@@ -34,7 +33,7 @@ pub fn handle_state(
     Ok(())
 }
 
-fn main() -> Result<(), Box<dyn Error>> {
+fn main() -> Result<()> {
     App::new(100)?
         .states(CustomState { state: 0 })
         .widgets(handle_state)

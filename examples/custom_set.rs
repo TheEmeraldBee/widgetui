@@ -1,5 +1,4 @@
-use std::error::Error;
-
+use anyhow::Result;
 use ratatui::widgets::Paragraph;
 use widgetui::*;
 
@@ -42,6 +41,6 @@ pub fn CoolSet(app: App) -> App {
     app.widgets(widget).states(CoolState::default())
 }
 
-fn main() -> Result<(), Box<dyn Error>> {
+fn main() -> Result<()> {
     App::new(100)?.sets(CoolSet).run()
 }

@@ -2,11 +2,11 @@ use std::{
     any::{Any, TypeId},
     cell::RefCell,
     collections::HashMap,
-    error::Error,
     ops::Deref,
     time::{Duration, SystemTime},
 };
 
+use anyhow::Result;
 use ratatui::{buffer::Buffer, prelude::Backend};
 
 use crate::{
@@ -30,7 +30,7 @@ pub struct App {
 
 impl App {
     /// Create a new app with the given clock time (in ms)
-    pub fn new(clock: u64) -> Result<Self, Box<dyn Error>> {
+    pub fn new(clock: u64) -> Result<Self> {
         let terminal = setup_terminal()?;
 
         Ok(Self {
@@ -82,7 +82,7 @@ impl App {
     }
 
     /// Run the app, returning an error if any of the functions error out.
-    pub fn run(mut self) -> Result<(), Box<dyn Error>> {
+    pub fn run(mut self) -> Result<()> {
         let result = self.inner_run();
 
         restore_terminal(self.terminal)?;
@@ -90,7 +90,7 @@ impl App {
         result
     }
 
-    fn inner_run(&mut self) -> Result<(), Box<dyn Error>> {
+    fn inner_run(&mut self) -> Result<()> {
         self.terminal.hide_cursor()?;
 
         loop {

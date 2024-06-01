@@ -1,8 +1,7 @@
+use anyhow::Result;
 use crossterm::event::KeyCode;
 use ratatui::widgets::Paragraph;
 use widgetui::*;
-
-use std::error::Error;
 
 fn widget(mut frame: ResMut<WidgetFrame>, mut events: ResMut<Events>) -> WidgetResult {
     let size = frame.size();
@@ -15,6 +14,6 @@ fn widget(mut frame: ResMut<WidgetFrame>, mut events: ResMut<Events>) -> WidgetR
     Ok(())
 }
 
-fn main() -> Result<(), Box<dyn Error>> {
+fn main() -> Result<()> {
     App::new(100)?.widgets(widget).run()
 }

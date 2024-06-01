@@ -1,8 +1,6 @@
-use std::{
-    error::Error,
-    io::{stdout, Stdout},
-};
+use std::io::{stdout, Stdout};
 
+use anyhow::Result;
 use crossterm::{
     execute,
     terminal::{disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen},
@@ -109,7 +107,7 @@ impl WidgetFrame {
 
 /// Sets up the terminal to work with your app
 /// This is run automatically by app.
-pub fn setup_terminal() -> Result<WidgetTerminal, Box<dyn Error>> {
+pub fn setup_terminal() -> Result<WidgetTerminal> {
     enable_raw_mode()?;
     let mut stdout = stdout();
     execute!(stdout, EnterAlternateScreen)?;
@@ -120,7 +118,7 @@ pub fn setup_terminal() -> Result<WidgetTerminal, Box<dyn Error>> {
 
 /// Takes down the terminal, ensuring that it is all ok.
 /// This is run automatically by the app.
-pub fn restore_terminal(mut terminal: WidgetTerminal) -> Result<(), Box<dyn Error>> {
+pub fn restore_terminal(mut terminal: WidgetTerminal) -> Result<()> {
     disable_raw_mode()?;
     execute!(terminal.backend_mut(), LeaveAlternateScreen)?;
     Ok(())
@@ -128,7 +126,7 @@ pub fn restore_terminal(mut terminal: WidgetTerminal) -> Result<(), Box<dyn Erro
 
 /// Resets the terminal in case of a panic.
 /// This is handled automatically if panic handler is enabled.
-pub fn reset_terminal() -> Result<(), Box<dyn Error>> {
+pub fn reset_terminal() -> Result<()> {
     disable_raw_mode()?;
     execute!(stdout(), LeaveAlternateScreen)?;
     Ok(())

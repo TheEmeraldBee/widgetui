@@ -4,14 +4,14 @@ Turn
 <summary>Ratatui Minimal</summary>
 
 ```rust
-fn main() -> Result<(), Box<dyn Error>> {
+fn main() -> anyhow::Result<()> {
     let mut terminal = setup_terminal()?;
     run(&mut terminal)?;
     restore_terminal(&mut terminal)?;
     Ok(())
 }
 
-fn setup_terminal() -> Result<Terminal<CrosstermBackend<Stdout>>, Box<dyn Error>> {
+fn setup_terminal() -> anyhow::Result<Terminal<CrosstermBackend<Stdout>>> {
     let mut stdout = io::stdout();
     enable_raw_mode()?;
     execute!(stdout, EnterAlternateScreen)?;
@@ -20,13 +20,13 @@ fn setup_terminal() -> Result<Terminal<CrosstermBackend<Stdout>>, Box<dyn Error>
 
 fn restore_terminal(
     terminal: &mut Terminal<CrosstermBackend<Stdout>>,
-) -> Result<(), Box<dyn Error>> {
+) -> anyhow::Result<()> {
     disable_raw_mode()?;
     execute!(terminal.backend_mut(), LeaveAlternateScreen,)?;
     Ok(terminal.show_cursor()?)
 }
 
-fn run(terminal: &mut Terminal<CrosstermBackend<Stdout>>) -> Result<(), Box<dyn Error>> {
+fn run(terminal: &mut Terminal<CrosstermBackend<Stdout>>) -> anyhow::Result<()> {
     Ok(loop {
         terminal.draw(|frame| {
             let greeting = Paragraph::new("Hello World!");
@@ -53,8 +53,7 @@ Into
 use crossterm::event::KeyCode;
 use ratatui::widgets::Paragraph;
 use widgetui::*;
-
-use std::error::Error;
+use anyhow::Result;
 
 fn widget(mut frame: ResMut<WidgetFrame>, mut events: ResMut<Events>) -> WidgetResult {
     let size = frame.size();
@@ -67,7 +66,7 @@ fn widget(mut frame: ResMut<WidgetFrame>, mut events: ResMut<Events>) -> WidgetR
     Ok(())
 }
 
-fn main() -> Result<(), Box<dyn Error>> {
+fn main() -> Result<()> {
     App::new(100)?.widgets(widget).run()
 }
 ```

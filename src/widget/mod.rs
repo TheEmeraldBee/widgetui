@@ -8,11 +8,12 @@ use crate::{states::States, WidgetFrame};
 use std::{
     any::{Any, TypeId},
     collections::HashMap,
-    error::Error,
 };
 
+use anyhow::Result;
+
 /// The main result that a widget will always return.
-pub type WidgetResult = Result<(), Box<dyn Error>>;
+pub type WidgetResult = Result<()>;
 
 /// A widget that can be called.
 pub trait Widget {
