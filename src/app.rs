@@ -3,6 +3,7 @@ use std::{
     cell::RefCell,
     collections::HashMap,
     error::Error,
+    io,
     ops::Deref,
     time::{Duration, SystemTime},
 };
@@ -30,7 +31,7 @@ pub struct App {
 
 impl App {
     /// Create a new app with the given clock time (in ms)
-    pub fn new(clock: u64) -> Result<Self, Box<dyn Error>> {
+    pub fn new(clock: u64) -> Result<Self, io::Error> {
         let terminal = setup_terminal()?;
 
         Ok(Self {
