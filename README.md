@@ -68,7 +68,7 @@ fn widget(mut frame: ResMut<WidgetFrame>, mut events: ResMut<Events>) -> WidgetR
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
-    App::new(100)?.widgets(widget).run()
+    Ok(App::new(100)?.widgets(widget).run()?)
 }
 ```
 </details>
