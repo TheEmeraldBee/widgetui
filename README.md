@@ -108,7 +108,7 @@ fn widget(mut frame: ResMut<WidgetFrame>, mut events: ResMut<Events>) -> WidgetR
     Ok(())
 }
 
-fn main() -> Result<(), Box<dyn Error>> {
+fn main() -> Result<(), impl Error> {
     App::new(100)?.widgets(widget).run()
 }
 ```
