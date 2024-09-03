@@ -101,7 +101,7 @@ impl App {
             let widget_frame = WidgetFrame {
                 cursor_position: None,
                 buffer: frame.buffer_mut().clone(),
-                viewport_area: frame.size(),
+                viewport_area: frame.area(),
                 count: frame.count(),
             };
 
@@ -141,7 +141,7 @@ impl App {
                 let widget_frame = Res::<WidgetFrame>::retrieve(&self.states);
 
                 if let Some((x, y)) = widget_frame.cursor_position {
-                    frame.set_cursor(x, y);
+                    frame.set_cursor_position((x, y));
                 }
 
                 *frame.buffer_mut() = widget_frame.buffer.clone();

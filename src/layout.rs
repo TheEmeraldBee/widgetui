@@ -11,9 +11,10 @@ Constraints:
 - >Num: Min
 - <Num: Max
 - Num ; Num: Ratio
-Then Either , to make new row, or => {} to add horizontal limits to row.
-If horizontal limits, then
-constraint and optionally more
+
+    Then Either , to make new row, or => {} to add horizontal limits to row.
+    If horizontal limits, then
+    constraint and optionally more
 
 Ex:
 Custom Chunks Example
