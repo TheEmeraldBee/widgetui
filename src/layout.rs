@@ -144,7 +144,7 @@ mod test {
             (%50)
         ][1][1];
 
-        let popup_test = Rect::new(26, 125, 204, 3);
+        let popup_test = Rect::new(100, 497, 800, 3);
 
         assert_eq!(popup, popup_test);
     }
