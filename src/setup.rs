@@ -63,6 +63,12 @@ impl WidgetFrame {
         widget.render(area, &mut self.buffer);
     }
 
+    /// Render a [`StatefulWidget`] to the current buffer using [`StatefulWidget::render`].
+    pub fn render_stateful_widget<W: StatefulWidget>(&mut self, widget: W, area: Rect, state: &mut W::State)
+    {
+        widget.render(area, &mut self.buffer, state);
+    }
+
     /// After drawing this frame, make the cursor visible and put it at the specified (x, y)
     /// coordinates. If this method is not called, the cursor will be hidden.
     ///
