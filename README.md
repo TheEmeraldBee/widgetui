@@ -1,4 +1,4 @@
-# DO NOT USE THIS CRATE
+# Warning
 This project is no longer maintained in favor of using [Stategine](https://github.com/TheEmeraldBee/stategine)
 as much more thought has gone into designing the systems for it. It supports entities **and** states, making it's implementation
 much superior to this ones. As well, it is still maintained by me, and I am using it for a plethora of projects.
